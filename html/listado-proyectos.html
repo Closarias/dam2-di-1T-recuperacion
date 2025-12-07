@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Listado de proyectos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-slate-50 text-slate-800 flex flex-col">
+
+<header class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="h-9 w-9 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center text-sm font-semibold">
+                DI
+            </div>
+            <div>
+                <p class="text-sm font-semibold leading-tight">Panel de proyectos</p>
+                <p class="text-xs text-white/80">Desarrollo de Interfaces · Recuperación</p>
+            </div>
+        </div>
+        <p class="text-xs text-white/80">Listado de proyectos</p>
+    </div>
+</header>
+
+<main class="flex-1">
+    <div class="max-w-5xl mx-auto px-4 py-8">
+
+        <section class="mb-6">
+            <h1 class="text-2xl font-semibold tracking-tight text-slate-900">Listado de proyectos</h1>
+            <p class="text-sm text-slate-500 mt-1">
+                Usa el filtro para ver solo los proyectos en un estado concreto.
+            </p>
+        </section>
+
+
+        <section class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div class="flex-1">
+                <h2 class="text-sm font-medium text-slate-700">Filtrar por estado</h2>
+                <p class="text-xs text-slate-500">Muestra todos, en curso o pausados.</p>
+
+                <div class="mt-2 w-full sm:w-80">
+                    <label for="estado-select" class="block text-xs font-medium text-slate-600 mb-1">
+                        Estado
+                    </label>
+                    <select
+                            id="estado-select"
+                            name="estado"
+                            class="block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                        <option value="TODOS">Todos</option>
+                        <option value="EN_CURSO">En curso</option>
+                        <option value="PAUSADO">Pausado</option>
+                    </select>
+                </div>
+            </div>
+
+
+            <a
+                    href="nuevo-proyecto.html"
+                    class="inline-flex justify-center items-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white
+               hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
+            >
+                + Nuevo proyecto
+            </a>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="border-b border-slate-200 px-4 py-3 flex items-center justify-between">
+                <h2 class="text-sm font-semibold text-slate-800">Proyectos</h2>
+                <span class="text-xs text-slate-500">
+          Total: <span id="total-proyectos">6</span>
+        </span>
+            </div>
+
+            <!-- BLOQUE DE ERROR -->
+            <div id="error-panel" class="hidden px-4 pt-3">
+                <div class="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs sm:text-sm text-red-700">
+                    <p class="font-semibold">No se han podido cargar los proyectos.</p>
+                    <p class="mt-0.5 text-red-700/90">Revisa el servidor o vuelve a intentarlo.</p>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-slate-50">
+                    <tr>
+                        <th class="px-4 py-2 text-left font-semibold text-slate-600">Proyecto</th>
+                        <th class="px-4 py-2 text-left font-semibold text-slate-600">Cliente</th>
+                        <th class="px-4 py-2 text-left font-semibold text-slate-600">Estado</th>
+                        <th class="px-4 py-2 text-left font-semibold text-slate-600">Acciones</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-slate-100">
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-2 whitespace-nowrap font-medium text-slate-800">App de gestión de tareas</td>
+                        <td class="px-4 py-2 whitespace-nowrap">Fundación AyudaNet</td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700 border border-emerald-100">
+                  En curso
+                </span>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <button type="button"
+                                    class="inline-flex items-center rounded-xl border border-rose-200 px-3 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-2 whitespace-nowrap font-medium text-slate-800">Landing de prácticas FP</td>
+                        <td class="px-4 py-2 whitespace-nowrap">Centro FP</td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700 border border-emerald-100">
+                  En curso
+                </span>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <button type="button"
+                                    class="inline-flex items-center rounded-xl border border-rose-200 px-3 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-2 whitespace-nowrap font-medium text-slate-800">Dashboard de incidencias</td>
+                        <td class="px-4 py-2 whitespace-nowrap">Asociación Verde</td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                <span class="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 border border-slate-200">
+                  Pausado
+                </span>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <button type="button"
+                                    class="inline-flex items-center rounded-xl border border-rose-200 px-3 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-2 whitespace-nowrap font-medium text-slate-800">Inventario solidario</td>
+                        <td class="px-4 py-2 whitespace-nowrap">ONG Reparto</td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700 border border-emerald-100">
+                  En curso
+                </span>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <button type="button"
+                                    class="inline-flex items-center rounded-xl border border-rose-200 px-3 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-2 whitespace-nowrap font-medium text-slate-800">Portafolio del equipo</td>
+                        <td class="px-4 py-2 whitespace-nowrap">Proyecto interno</td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                <span class="inline-flex items-center rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700 border border-emerald-100">
+                  En curso
+                </span>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <button type="button"
+                                    class="inline-flex items-center rounded-xl border border-rose-200 px-3 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr class="hover:bg-slate-50">
+                        <td class="px-4 py-2 whitespace-nowrap font-medium text-slate-800">App de reservas</td>
+                        <td class="px-4 py-2 whitespace-nowrap">Startup Local</td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                <span class="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-600 border border-slate-200">
+                  Pausado
+                </span>
+                        </td>
+                        <td class="px-4 py-2 whitespace-nowrap">
+                            <button type="button"
+                                    class="inline-flex items-center rounded-xl border border-rose-200 px-3 py-1 text-xs font-medium text-rose-600 hover:bg-rose-50">
+                                Eliminar
+                            </button>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<footer class="bg-white border-t border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+        <p class="text-xs text-slate-500">&copy; 2025 · DI</p>
+        <p class="text-xs text-slate-400">Plantilla HTML</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Crear proyecto</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-slate-50 text-slate-800 flex flex-col">
+
+<header class="bg-gradient-to-r from-indigo-600 to-violet-600 text-white">
+    <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="h-9 w-9 rounded-xl bg-white/15 border border-white/20 flex items-center justify-center text-sm font-semibold">
+                DI
+            </div>
+            <div>
+                <p class="text-sm font-semibold leading-tight">Panel de proyectos</p>
+                <p class="text-xs text-white/80">Desarrollo de Interfaces · Recuperación</p>
+            </div>
+        </div>
+        <p class="text-xs text-white/80">Nuevo proyecto</p>
+    </div>
+</header>
+
+<main class="flex-1">
+    <div class="max-w-5xl mx-auto px-4 py-8">
+
+        <section class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h1 class="text-2xl font-semibold tracking-tight text-slate-900">Crear proyecto</h1>
+                <p class="text-sm text-slate-500 mt-1">
+                    Rellena el formulario y guarda el proyecto.
+                </p>
+            </div>
+
+            <div class="flex justify-start sm:justify-end gap-2">
+                <a
+                        href="listado-proyectos.html"
+                        class="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50"
+                >
+                    ← Volver al listado
+                </a>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="border-b border-slate-200 px-4 py-3">
+                <h2 class="text-sm font-semibold text-slate-800">Datos del proyecto</h2>
+                <p class="text-xs text-slate-500 mt-0.5">Campos básicos para crear un proyecto.</p>
+            </div>
+
+
+
+            <form id="form-crear-proyecto" class="px-4 py-5 space-y-5">
+
+                <div>
+                    <label for="nombre" class="block text-sm font-medium text-slate-700">Nombre del proyecto</label>
+                    <input
+                            id="nombre"
+                            name="nombre"
+                            type="text"
+                            placeholder="Ej: App de gestión de tareas"
+                            class="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    />
+                    <p class="mt-1 text-xs text-slate-500">Obligatorio.</p>
+                </div>
+
+                <div>
+                    <label for="cliente" class="block text-sm font-medium text-slate-700">Cliente</label>
+                    <input
+                            id="cliente"
+                            name="cliente"
+                            type="text"
+                            placeholder="Ej: Fundación AyudaNet"
+                            class="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    />
+                    <p class="mt-1 text-xs text-slate-500">Obligatorio.</p>
+                </div>
+
+                <div>
+                    <label for="estado" class="block text-sm font-medium text-slate-700">Estado</label>
+                    <select
+                            id="estado"
+                            name="estado"
+                            class="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
+                   focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    >
+                        <option value="EN_CURSO">En curso</option>
+                        <option value="PAUSADO">Pausado</option>
+                    </select>
+                    <p class="mt-1 text-xs text-slate-500">Obligatorio.</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-slate-700">Email de contacto</label>
+                        <input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="contacto@cliente.com"
+                                class="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        />
+                        <p class="mt-1 text-xs text-slate-500">Opcional.</p>
+                    </div>
+
+                    <div>
+                        <label for="telefono" class="block text-sm font-medium text-slate-700">Teléfono</label>
+                        <input
+                                id="telefono"
+                                name="telefono"
+                                type="text"
+                                placeholder="910 000 000"
+                                class="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
+                     focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        />
+                        <p class="mt-1 text-xs text-slate-500">Opcional.</p>
+                    </div>
+                </div>
+                <!-- PANEL DE ERROR -->
+                <div id="error-panel" class="hidden px-4 pt-3">
+                    <div class="rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs sm:text-sm text-red-700">
+                        <p class="font-semibold">No se ha podido crear el proyecto.</p>
+                        <p class="mt-0.5 text-red-700/90">Revisa los datos o inténtalo más tarde.</p>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex flex-col sm:flex-row gap-2 sm:justify-end border-t border-slate-100">
+                    <button
+                            type="reset"
+                            id="btn-limpiar"
+                            class="inline-flex justify-center items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                    >
+                        Limpiar
+                    </button>
+
+                    <button
+                            type="submit"
+                            id="btn-crear"
+                            class="inline-flex justify-center items-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white
+                   hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
+                    >
+                        Crear proyecto
+                    </button>
+                </div>
+            </form>
+
+        </section>
+
+    </div>
+</main>
+
+<footer class="bg-white border-t border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+        <p class="text-xs text-slate-500">&copy; 2025 · DI</p>
+        <p class="text-xs text-slate-400">Plantilla HTML</p>
+    </div>
+</footer>
+
+</body>
+</html>
