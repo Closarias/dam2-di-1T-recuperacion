@@ -1,8 +1,112 @@
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
-import { Link } from "react-router-dom";
+import { crearProyecto } from "@/services/proyectosService";
+import type { ProyectoRequest } from "@/types/proyectos";
+import { useEffect, useState, type ChangeEvent } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+type ProyectoForm = {
+  nombre: string;
+  cliente: string;
+  estado: "EN_CURSO" | "PAUSADO";
+  email: string;
+  telefono: string;
+};
+
+const defaultProyectoForm: ProyectoForm = {
+  nombre: "",
+  cliente: "",
+  estado: "EN_CURSO",
+  email: "",
+  telefono: "",
+};
 
 export default function NuevoProyecto() {
+  const [form, setForm] = useState<ProyectoForm>(defaultProyectoForm);
+  const [isValid, setValid] = useState<boolean>(false);
+
+  const navigate = useNavigate();
+
+  const handleNombreOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value } = evt.target;
+    setForm({
+      ...form,
+      nombre: value,
+    });
+  };
+
+  const handleClienteOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value } = evt.target;
+    setForm({
+      ...form,
+      cliente: value,
+    });
+  };
+
+  const handleEstadoOnChange = (evt: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = evt.target;
+    setForm({
+      ...form,
+      estado: value === "EN_CURSO" ? "EN_CURSO" : "PAUSADO",
+    });
+  };
+
+  const handleEmailOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value } = evt.target;
+    setForm({
+      ...form,
+      email: value,
+    });
+  };
+
+  const handleTelefonoOnChange = (evt: ChangeEvent<HTMLInputElement>) => {
+    const { value } = evt.target;
+    setForm({
+      ...form,
+      telefono: value,
+    });
+  };
+
+  const handleReset = () => {
+    setForm(defaultProyectoForm);
+  };
+
+  const handleSubmitForm = async () => {
+    const request: ProyectoRequest = {
+      nombre: form.nombre,
+      cliente: form.cliente,
+      estado: form.estado,
+      email: form.email,
+      telefono: form.telefono,
+    };
+
+    const response = await crearProyecto(request);
+
+    if (response.ok) {
+      const proyecto = response.data!;
+      alert(`Proyecto con id ${proyecto.id} ha sido creado con éxito.`);
+      navigate("/");
+    } else {
+      throw new Error(String(response.error));
+    }
+  };
+
+  useEffect(() => {
+    const isNombreValid =
+      form.nombre.trim().length > 3 && form.nombre.trim().length < 60;
+    const isClienteValid =
+      form.cliente.trim().length > 2 && form.cliente.trim().length < 60;
+    const isEstadoValid =
+      form.estado === "EN_CURSO" || form.estado === "PAUSADO";
+    const isEmailValid = form.email === "" || form.email.includes("@");
+
+    setValid(isNombreValid && isClienteValid && isEstadoValid && isEmailValid);
+  }, [form]);
+
+  const botonValido = isValid
+    ? "inline-flex justify-center items-center rounded-xl px-4 py-2 text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
+    : "inline-flex justify-center items-center rounded-xl px-4 py-2 text-sm font-semibold text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-1";
+
   return (
     <>
       <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col">
@@ -20,7 +124,8 @@ export default function NuevoProyecto() {
               </div>
 
               <div className="flex justify-start sm:justify-end gap-2">
-                <Link to="/"
+                <Link
+                  to="/"
                   className="inline-flex items-center rounded-xl border border-slate-300 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-50"
                 >
                   ← Volver al listado
@@ -47,9 +152,9 @@ export default function NuevoProyecto() {
                     Nombre del proyecto
                   </label>
                   <input
-                    id="nombre"
-                    name="nombre"
                     type="text"
+                    value={form.nombre}
+                    onChange={handleNombreOnChange}
                     placeholder="Ej: App de gestión de tareas"
                     className="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -65,9 +170,9 @@ export default function NuevoProyecto() {
                     Cliente
                   </label>
                   <input
-                    id="cliente"
-                    name="cliente"
                     type="text"
+                    value={form.cliente}
+                    onChange={handleClienteOnChange}
                     placeholder="Ej: Fundación AyudaNet"
                     className="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -83,8 +188,8 @@ export default function NuevoProyecto() {
                     Estado
                   </label>
                   <select
-                    id="estado"
-                    name="estado"
+                    value={form.estado}
+                    onChange={handleEstadoOnChange}
                     className="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
                    focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                   >
@@ -103,9 +208,9 @@ export default function NuevoProyecto() {
                       Email de contacto
                     </label>
                     <input
-                      id="email"
-                      name="email"
-                      type="email"
+                      type="text"
+                      value={form.email}
+                      onChange={handleEmailOnChange}
                       placeholder="contacto@cliente.com"
                       className="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
                      focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -121,9 +226,9 @@ export default function NuevoProyecto() {
                       Teléfono
                     </label>
                     <input
-                      id="telefono"
-                      name="telefono"
                       type="text"
+                      value={form.telefono}
+                      onChange={handleTelefonoOnChange}
                       placeholder="910 000 000"
                       className="mt-1 block w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm
                      focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
@@ -145,17 +250,15 @@ export default function NuevoProyecto() {
                 <div className="pt-2 flex flex-col sm:flex-row gap-2 sm:justify-end border-t border-slate-100">
                   <button
                     type="reset"
-                    id="btn-limpiar"
+                    onClick={handleReset}
                     className="inline-flex justify-center items-center rounded-xl border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
                   >
                     Limpiar
                   </button>
-
                   <button
-                    type="submit"
-                    id="btn-crear"
-                    className="inline-flex justify-center items-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white
-                   hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1"
+                    disabled={!isValid}
+                    onClick={handleSubmitForm}
+                    className={botonValido}
                   >
                     Crear proyecto
                   </button>

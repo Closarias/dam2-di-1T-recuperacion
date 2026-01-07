@@ -1,5 +1,5 @@
 import type {APIError, APIResult} from "@/types/util";
-import type {Proyecto} from "@/types/proyectos";
+import type {Proyecto, ProyectoRequest} from "@/types/proyectos";
 
 const baseURL: string = "http://localhost:3000";
 
@@ -16,7 +16,7 @@ export const listarProyecto = async (): Promise<APIResult<Proyecto[]>> => {
     return {ok: false, error: error};
 }
 
-export async function crearMascota (request:Proyecto):Promise<APIResult<Proyecto>>{
+export async function crearProyecto (request:ProyectoRequest):Promise<APIResult<Proyecto>>{
     const response = await fetch(`${baseURL}/api/proyectos/`,{
         method:'POST',
         body: JSON.stringify(request),
